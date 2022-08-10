@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body{
@@ -52,24 +53,24 @@ footer{
 
 .greeting-wrapper{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
 }
 
 .name{
+
     font-family: 'Ubuntu', sans-serif;
-    font-size: 20px;
-    border: none;
+    font-size: 100%;
     background: none;
+    color: white;
     border: none;
     outline: none;
-    color: white;
+    text-align: center;
 }
 
 .name::placeholder{
+    font-style: italic;
     font-family: 'Ubuntu', sans-serif;
-    font-size: 20px;
     color: white;
 }

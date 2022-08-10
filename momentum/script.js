@@ -1,6 +1,8 @@
 const clock = document.querySelector('.clock');
 const calendar = document.querySelector('.calendar');
 const greeting = document.querySelector('.greeting')
+const userName = document.querySelector('.name')
+
 //время и календарь
 function showTimeandDate(){
     const date = new Date();
@@ -28,6 +30,19 @@ function getTimeOfDay(hours){
         return 'Night'
     }
 }
+//сохранение имени
+function setName(){
+    localStorage.setItem('name', userName.value)
+}
+
+//установка имени из локал сторэдж
+function getName(){
+    if(localStorage.getItem('name')){
+        userName.value =  localStorage.getItem('name')
+    }
+}
 
 showTimeandDate();
 greetTheUser();
+window.addEventListener('beforeunload', setName)
+window.addEventListener('load', getName)
