@@ -19,8 +19,9 @@ header{
 }
 
 main{
-    font-size: 120%;
+    font-size: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -36,5 +37,39 @@ footer{
     width: 100%;
     height: 10vh;
     background-color: #333333;
+    color: white;
+}
+
+.clock{
+    font-size: 200%;
+    text-align: center;
+}
+
+.calendar{
+    font-size: 120%;
+    text-align: center;
+}
+
+.greeting-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.name{
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+    border: none;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+}
+
+.name::placeholder{
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
     color: white;
 }
