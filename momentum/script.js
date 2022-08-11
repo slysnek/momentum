@@ -3,6 +3,9 @@ const calendar = document.querySelector('.calendar');
 const greeting = document.querySelector('.greeting')
 const userName = document.querySelector('.name')
 const body = document.querySelector('body')
+const leftArrow = document.querySelector('.arrow-left')
+const rightArrow = document.querySelector('.arrow-right')
+let randomNumber = getNumforBackground();
 
 //время и календарь
 function showTimeandDate(){
@@ -47,27 +50,42 @@ function setBackgroundImage(){
     const date = new Date();
     const hours = date.getHours();
     const timeOfDay = getTimeOfDay(hours);
-    let randomNumber = getNumforBackground().toString();
+    randomNumber = randomNumber.toString();
     if(randomNumber.length === 1){
         randomNumber = randomNumber.padStart(2, '0')
     }
-
-    body.style.backgroundImage = `url('https://raw.githubusercontent.com/slysnek/momentum-backgrounds/main/${timeOfDay}/${randomNumber}.webp')`
-    console.log(randomNumber);
-    console.log(body);
+    let image = new Image();
+    image.src = `https://raw.githubusercontent.com/slysnek/momentum-backgrounds/main/${timeOfDay}/${randomNumber}.webp`;
+    image.addEventListener('load', function () {
+        body.style.backgroundImage = `url(${image.src})`;
+    })
 }
 //генератор случайных чисел для изображений
 function getNumforBackground(){
     return Math.floor(Math.random() * 20) + 1
 }
 
-
-
-
-
+//функции для стрелочек
+function getNextSlide(){
+    randomNumber++;
+    if(randomNumber > 20){
+        randomNumber = 1;
+    }
+    setBackgroundImage();
+}
+function getPreviousSlide(){
+    randomNumber--;
+    if(randomNumber < 1){
+        randomNumber = 20;
+    }
+    setBackgroundImage();
+}
 
 showTimeandDate();
 greetTheUser();
 window.addEventListener('beforeunload', setName);
 window.addEventListener('load', getName);
 setBackgroundImage();
+
+leftArrow.addEventListener('click', getPreviousSlide)
+rightArrow.addEventListener('click', getNextSlide)
