@@ -2,6 +2,7 @@ const clock = document.querySelector('.clock');
 const calendar = document.querySelector('.calendar');
 const greeting = document.querySelector('.greeting')
 const userName = document.querySelector('.name')
+const body = document.querySelector('body')
 
 //время и календарь
 function showTimeandDate(){
@@ -21,13 +22,13 @@ function greetTheUser(){
 }
 function getTimeOfDay(hours){
     if(hours >= 6 && hours < 12){
-        return 'Morning'
+        return 'morning'
     } else if(hours >= 12 && hours < 18){
-        return 'Afternoon'
+        return 'afternoon'
     } else if(hours >= 18 && hours < 24){
-        return 'Evening'
+        return 'evening'
     } else if(hours >= 0 && hours < 6){
-        return 'Night'
+        return 'night'
     }
 }
 //сохранение имени
@@ -41,8 +42,32 @@ function getName(){
         userName.value =  localStorage.getItem('name')
     }
 }
+//слайдер фоновых изображений
+function setBackgroundImage(){
+    const date = new Date();
+    const hours = date.getHours();
+    const timeOfDay = getTimeOfDay(hours);
+    let randomNumber = getNumforBackground().toString();
+    if(randomNumber.length === 1){
+        randomNumber = randomNumber.padStart(2, '0')
+    }
+
+    body.style.backgroundImage = `url('https://raw.githubusercontent.com/slysnek/momentum-backgrounds/main/${timeOfDay}/${randomNumber}.webp')`
+    console.log(randomNumber);
+    console.log(body);
+}
+//генератор случайных чисел для изображений
+function getNumforBackground(){
+    return Math.floor(Math.random() * 20) + 1
+}
+
+
+
+
+
 
 showTimeandDate();
 greetTheUser();
-window.addEventListener('beforeunload', setName)
-window.addEventListener('load', getName)
+window.addEventListener('beforeunload', setName);
+window.addEventListener('load', getName);
+setBackgroundImage();
