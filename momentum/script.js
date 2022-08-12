@@ -8,6 +8,14 @@ const rightArrow = document.querySelector('.arrow-right')
 const quote = document.querySelector('.quote')
 const author = document.querySelector('.author')
 const shuffle = document.querySelector('.shuffle-button')
+const weatherIcon = document.querySelector('.weather-icon');
+const temperature = document.querySelector('.temperature');
+const weatherDescription = document.querySelector('.weather-description')
+const city = document.querySelector('.city')
+const wind = document.querySelector('.wind')
+const humidity = document.querySelector('.humidity')
+
+
 let randomNumber = getNumforBackgroundandQuote()
 , randomNumberforQuote = getNumforBackgroundandQuote();
 
@@ -97,22 +105,65 @@ async function getQuotes(){
         throw "Quotes didn't load"
     };
 }
-
+//отображаем цитаты и автора 
 async function displayQuotes(){
     let quotes = await getQuotes();
     randomNumberforQuote = getNumforBackgroundandQuote();
     quote.innerHTML = quotes[randomNumberforQuote].text;
     author.innerHTML = quotes[randomNumberforQuote].author + ' ©';
 }
-
+//получаем данные о погоде с апишки
+async function getWeather(){
+    let cityName = await getCity();
+    if (cityName == undefined){
+        city.value = ""
+    }
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&lang=ru&appid=e25dd9614f6f0f39ce1170ade40d041d&units=metric`;
+    try{
+        let result = await fetch(url);
+        let weatherData = await result.json();
+        console.log(weatherData.weather[0].id,
+        weatherData.weather[0].description,
+        weatherData.main.temp,
+        weatherData.wind.speed,
+        weatherData.main.humidity);
+        weatherIcon.className = 'weather-icon owf';
+        weatherIcon.classList.add(`owf-${weatherData.weather[0].id}`);
+        temperature.textContent = `Температура: ${Math.round(weatherData.main.temp)}°C`;
+        wind.textContent = `Ветер: ${Math.round(weatherData.wind.speed)} м/с`;
+        humidity.textContent = `Влажность: ${weatherData.main.humidity} %`;
+        weatherDescription.textContent = weatherData.weather[0].description;
+    }
+    catch(error){
+        alert("Введите правильное название города!");
+    }
+}
+//сохраняем название города
+function setCity(){
+    localStorage.setItem('city', city.value)
+}
+//устанавливаем название города из локал сторэдж
+function getCity(){
+    if(localStorage.getItem('city')){
+        city.value =  localStorage.getItem('city')
+        return city.value;
+    } else{
+        return undefined;
+    }
+}
 
 showTimeandDate();
 greetTheUser();
 window.addEventListener('beforeunload', setName);
 window.addEventListener('load', getName);
+window.addEventListener('beforeunload', setCity);
+window.addEventListener('load', getCity);
 setBackgroundImage();
 displayQuotes();
+getWeather();
 
 leftArrow.addEventListener('click', getPreviousSlide)
 rightArrow.addEventListener('click', getNextSlide)
 shuffle.addEventListener('click', displayQuotes)
+city.addEventListener('change', setCity)
+city.addEventListener('change', getWeather)
