@@ -99,3 +99,32 @@ footer{
 .arrow-right{
     right: 16px;
 }
+
+.quote-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 1s ease-in-out;
+}
+
+.quote{
+    text-align: center;
+    font-style: italic;
+}
+
+.author{
+    font-weight: bold;
+}
+
+.shuffle-button{
+    padding: 5px;
+    height:32px;
+    width: 32px;
+    cursor: pointer;
+}
+
+.shuffle-button:hover{
+    background-color: #333333;
+    border-radius: 14px;
+}
