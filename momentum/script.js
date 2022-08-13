@@ -135,7 +135,11 @@ async function getWeather(){
         weatherDescription.textContent = weatherData.weather[0].description;
     }
     catch(error){
-        alert("Введите правильное название города!");
+        if(cityName === undefined){
+            await alert("Поле с названием города пусто. Введите название вашего города для отображения погоды.");
+        } else{
+            await alert("Введите правильное название города!");
+        }
     }
 }
 //сохраняем название города
