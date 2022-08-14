@@ -1,24 +1,37 @@
+import playlist from './playlist.js'
+
+//приветствие с календарем
 const clock = document.querySelector('.clock');
 const calendar = document.querySelector('.calendar');
 const greeting = document.querySelector('.greeting')
 const userName = document.querySelector('.name')
+//задник
 const body = document.querySelector('body')
 const leftArrow = document.querySelector('.arrow-left')
 const rightArrow = document.querySelector('.arrow-right')
+//цитаты
 const quote = document.querySelector('.quote')
 const author = document.querySelector('.author')
 const shuffle = document.querySelector('.shuffle-button')
+//погода
 const weatherIcon = document.querySelector('.weather-icon');
 const temperature = document.querySelector('.temperature');
 const weatherDescription = document.querySelector('.weather-description')
 const city = document.querySelector('.city')
 const wind = document.querySelector('.wind')
 const humidity = document.querySelector('.humidity')
-
+//аудиоплеер
+const audioplayer = document.querySelector('.audioplayer')
+const playButton = document.querySelector('.start-track')
+const trackList = document.querySelector('.track-list')
+const previousButton = document.querySelector('.previous');
+const nextButton = document.querySelector('.next');
 
 let randomNumber = getNumforBackgroundandQuote()
 , randomNumberforQuote = getNumforBackgroundandQuote();
 
+let isPlay = false;
+let currentTrack = 0;
 
 //время и календарь
 function showTimeandDate(){
@@ -155,6 +168,77 @@ function getCity(){
         return undefined;
     }
 }
+//добавление треков в плейлист
+function getTracks(){
+    playlist.forEach((track) => {
+        let li = document.createElement('li')
+        let trackName = track.title
+        li.textContent = trackName;
+        trackList.append(li);
+    })
+    audioplayer.src = playlist[currentTrack].source;
+    let x = audioplayer.duration;
+    console.log(x); 
+}
+
+//воспроизведение треков
+function playAudio(){
+    if(isPlay === true){
+        audioplayer.pause();
+        playButton.classList.remove('pause');
+        playButton.classList.add('play');
+        currentTrackBackground()
+        isPlay = false;
+    } else{
+        isPlay = true;
+        playButton.classList.remove('play');
+        playButton.classList.add('pause');
+        currentTrackBackground()
+        audioplayer.play()
+        setTimeout(()=>{
+            if(audioplayer.ended){
+                nextTrack();
+            }
+        },Math.floor(audioplayer.duration) + 1000)
+    }
+}
+//переключение треков
+function nextTrack(){
+    if(isPlay === true){
+        currentTrackBackground()
+    }
+    currentTrack++;
+    if(currentTrack > playlist.length - 1){
+        currentTrack = 0;
+    }
+    isPlay = false;
+    audioplayer.src = playlist[currentTrack].source;
+    playAudio();
+}
+
+function previousTrack(){
+    if(isPlay === true){
+        currentTrackBackground()
+    }
+    currentTrack--;
+    if(currentTrack < 0){
+        currentTrack = playlist.length - 1;
+    }
+    isPlay = false;
+    audioplayer.src = playlist[currentTrack].source;
+    playAudio();
+}
+// выделение трека
+function currentTrackBackground(){
+    for(const track of document.querySelectorAll('li')){
+        if (track.textContent.includes(playlist[currentTrack].title)){
+            track.classList.toggle('current-track')
+        }
+    }
+}
+
+
+
 
 showTimeandDate();
 greetTheUser();
@@ -165,9 +249,14 @@ window.addEventListener('load', getCity);
 setBackgroundImage();
 displayQuotes();
 getWeather();
+getTracks();
 
 leftArrow.addEventListener('click', getPreviousSlide)
 rightArrow.addEventListener('click', getNextSlide)
 shuffle.addEventListener('click', displayQuotes)
 city.addEventListener('change', setCity)
 city.addEventListener('change', getWeather)
+playButton.addEventListener('click', playAudio)
+previousButton.addEventListener('click', previousTrack)
+nextButton.addEventListener('click', nextTrack)
+audioplayer.addEventListener('ended', nextTrack)

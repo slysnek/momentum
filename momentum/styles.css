@@ -128,3 +128,58 @@ footer{
     background-color: #333333;
     border-radius: 14px;
 }
+
+.audio-player-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.player-buttons{
+    display: flex;
+    flex-direction: row;
+}
+
+.player-button{
+    height: 32px;
+    width: 32px;
+    cursor: pointer;
+}
+
+.player-button:hover{
+    transform: scale(1.3);
+    transition-duration: 0.2s;
+}
+
+.previous{
+    background-image: url(src/previous.svg);
+    background-size: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.next{
+    background-image: url(src/next.svg);
+    background-size: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.play{
+    background-position: center;
+    background-image: url(src/play.svg);
+    background-size: 32px;
+    background-repeat: no-repeat;
+}
+
+.pause{
+    background-position: center;
+    background-image: url(src/pause.svg);
+    background-size: 16px;
+    background-repeat: no-repeat;
+}
+
+.current-track{
+    background-color:rgba(255, 255, 255, 0.5);
+    transition: 0.5s;
+}
