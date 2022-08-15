@@ -26,6 +26,13 @@ const playButton = document.querySelector('.start-track')
 const trackList = document.querySelector('.track-list')
 const previousButton = document.querySelector('.previous');
 const nextButton = document.querySelector('.next');
+const progressBar = document.querySelector('.progress-bar')
+const progress = document.querySelector('.progress')
+const length = document.querySelector('.length')
+const currentTimeDisplay = document.querySelector('.current-time')
+const volumeProgressBar = document.querySelector('.volume-progress-bar')
+const volumeProgress = document.querySelector('.volume-progress')
+const volumeButton = document.querySelector('.volume-button')
 
 let randomNumber = getNumforBackgroundandQuote()
 , randomNumberforQuote = getNumforBackgroundandQuote();
@@ -168,7 +175,7 @@ function getCity(){
         return undefined;
     }
 }
-//добавление треков в плейлист
+//добавление треков в плейлист (установка начальной громкости)
 function getTracks(){
     playlist.forEach((track) => {
         let li = document.createElement('li')
@@ -177,8 +184,12 @@ function getTracks(){
         trackList.append(li);
     })
     audioplayer.src = playlist[currentTrack].source;
-    let x = audioplayer.duration;
-    console.log(x); 
+    audioplayer.volume = .5;
+}
+
+//показ длительности трека
+function getAudioLength(){
+    length.textContent = getTimeCode(audioplayer.duration);
 }
 
 //воспроизведение треков
@@ -202,6 +213,15 @@ function playAudio(){
         },Math.floor(audioplayer.duration) + 1000)
     }
 }
+
+//обновление времени трека
+function updateTrackTime(){
+    setInterval(() =>{
+        progress.style.width = audioplayer.currentTime / audioplayer.duration * 100 + '%';
+        currentTimeDisplay.textContent = getTimeCode(audioplayer.currentTime)
+    }, 500)
+}
+
 //переключение треков
 function nextTrack(){
     if(isPlay === true){
@@ -236,9 +256,36 @@ function currentTrackBackground(){
         }
     }
 }
-
-
-
+//прогресс бар
+progressBar.addEventListener("click", el => {
+  const progressBarWidth = window.getComputedStyle(progressBar).width;
+  const timeToSeek = el.offsetX / parseInt(progressBarWidth) * audioplayer.duration;
+  audioplayer.currentTime = timeToSeek;
+  progress.style.width = audioplayer.currentTime / audioplayer.duration * 100 + "%";
+}, false);
+//получение тайм-кода
+function getTimeCode(trackDuration){
+    let seconds = Math.floor(trackDuration);
+    let minutes = Math.floor(seconds / 60);
+    seconds = seconds - minutes * 60;
+    return `${minutes}:${String(seconds).padStart(2,0)}`
+}
+//обновление звука
+volumeProgressBar.addEventListener("click", el =>{
+    const volumeProgressBarWidth = window.getComputedStyle(volumeProgressBar).width;
+    const newVolume = el.offsetX / parseInt(volumeProgressBarWidth);
+    audioplayer.volume = newVolume;
+    volumeProgress.style.width = newVolume * 100 + '%';
+})
+//мьют звука
+volumeButton.addEventListener("click", () => {
+    audioplayer.muted = !audioplayer.muted;
+    if(audioplayer.muted){
+        volumeButton.classList.toggle('off')
+    }else{
+        volumeButton.classList.toggle('off')
+    }
+})
 
 showTimeandDate();
 greetTheUser();
@@ -250,12 +297,17 @@ setBackgroundImage();
 displayQuotes();
 getWeather();
 getTracks();
+updateTrackTime()
 
 leftArrow.addEventListener('click', getPreviousSlide)
 rightArrow.addEventListener('click', getNextSlide)
+
 shuffle.addEventListener('click', displayQuotes)
+
 city.addEventListener('change', setCity)
 city.addEventListener('change', getWeather)
+
+audioplayer.addEventListener('loadeddata', getAudioLength)
 playButton.addEventListener('click', playAudio)
 previousButton.addEventListener('click', previousTrack)
 nextButton.addEventListener('click', nextTrack)
