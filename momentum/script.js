@@ -34,32 +34,61 @@ const currentTimeDisplay = document.querySelector('.current-time')
 const volumeProgressBar = document.querySelector('.volume-progress-bar')
 const volumeProgress = document.querySelector('.volume-progress')
 const volumeButton = document.querySelector('.volume-button')
+//перевод
+const eng = document.querySelector('.english');
+const rus = document.querySelector('.russian')
 //настройки
 const settings = {
     language: ["ru", "en"],
     blocks: ['.clock','.calendar','.greeting-wrapper', '.quote-wrapper', '.weather-wrapper', '.audio-player-wrapper']
 }
-
-let randomNumber = getNumforBackgroundandQuote()
-, randomNumberforQuote = getNumforBackgroundandQuote();
-
+const settingButtons = document.querySelectorAll('.hide-button')
+//рандомы
+let randomNumber = getNumforBackgroundandQuote(),
+randomNumberforQuote = getNumforBackgroundandQuote();
+//аудиоплеер
 let isPlay = false;
 let currentTrack = 0;
 
-//скрытие
+
+//скрытие блоков
 function hideBlocks(){
-    const settingButtons = document.querySelectorAll('.hide-button')
     for(let i = 0; i < settingButtons.length; i++){
         settingButtons[i].addEventListener('click', () => {
             let el = document.querySelector(settings.blocks[i])
             let activeButton = settingButtons[i]
             el.classList.toggle('hidden')
             activeButton.classList.toggle('hide-button-toggle')
+            if(activeButton.classList.contains('hide-button-toggle')){
+                console.log('saved');
+                window.localStorage.setItem(settings.blocks[i], true)
+                console.log(window.localStorage.getItem(settings.blocks[i]));
+            } else {
+                console.log('deleted');
+                window.localStorage.removeItem(settings.blocks[i])
+                console.log(window.localStorage.getItem(settings.blocks[i]));
+            }
         })
     }
 }
-hideBlocks();
+//достаем и применяем настройки (через листенер внизу)
+function getSettings(){
+    console.log(localStorage);
+    for(let i = 0; i < settings.blocks.length; i++){
+        console.log('name of block from settings: '+settings.blocks[i]);
+        console.log('its value: '+localStorage.getItem(settings.blocks[i]));
+        console.log('its type:' +typeof(localStorage.getItem(settings.blocks[i])));
+        if(localStorage.getItem(settings.blocks[i]) == 'true'){
+            console.log('is true');
+            document.querySelector(settings.blocks[i]).classList.toggle('hidden')
+            settingButtons[i].classList.toggle('hide-button-toggle')
+        }
+    }
+}
+//перевод
+const translation = {
 
+}
 
 //время и календарь
 function showTimeandDate(){
@@ -310,11 +339,13 @@ window.addEventListener('beforeunload', setName);
 window.addEventListener('load', getName);
 window.addEventListener('beforeunload', setCity);
 window.addEventListener('load', getCity);
+
 setBackgroundImage();
 displayQuotes();
 getWeather();
 getTracks();
 updateTrackTime()
+hideBlocks();
 
 leftArrow.addEventListener('click', getPreviousSlide)
 rightArrow.addEventListener('click', getNextSlide)
@@ -329,3 +360,5 @@ playButton.addEventListener('click', playAudio)
 previousButton.addEventListener('click', previousTrack)
 nextButton.addEventListener('click', nextTrack)
 audioplayer.addEventListener('ended', nextTrack)
+
+window.addEventListener('load', getSettings)

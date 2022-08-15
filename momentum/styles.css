@@ -106,7 +106,6 @@ footer{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: 1s ease-in-out;
 }
 
 .quote{
@@ -261,7 +260,7 @@ footer{
     border-radius: 10px;
     padding: 5px;
     cursor: pointer;
-    transition: 0.5s;
+    transition: background-color 1s;
 }
 
 .hide-button:hover{
@@ -274,6 +273,9 @@ footer{
 
 .hidden{
     opacity: 0;
+}
+
+.slow{
     transition: 1s;
 }
 
@@ -290,3 +292,11 @@ footer{
     justify-content: center;
 }
 
+.language-button{
+    cursor: pointer;
+}
+
+.language-button:hover{
+    color: #333333;
+    background-color: white;
+}
