@@ -17,9 +17,14 @@
     <main>
         <div class="audio-player-wrapper">
             <audio class="audioplayer"></audio>
-            <ul class = "track-list"></ul>
+            <div class="current-track-display"></div>
             <div class="progress-bar">
                 <div class="progress"></div>
+            </div>
+            <div class="time">
+                <div class="current-time">0:00</div>
+                <span>/</span>
+                <div class="length"></div>
             </div>
             <div class="volume-container">
                 <div class="volume-progress-bar">
@@ -27,11 +32,7 @@
                 </div>
                 <div class="volume-button on"></div>
             </div>
-            <div class="time">
-                <div class="current-time">0:00</div>
-                <span>/</span>
-                <div class="length"></div>
-            </div>
+            <ul class = "track-list"></ul>
             <div class="player-buttons">
                 <div class="previous player-button"></div>
                 <div class="start-track play player-button"></div>

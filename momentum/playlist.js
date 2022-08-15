@@ -1,10 +1,5 @@
 const playlist = [
     {      
-        title: 'fart',
-        source: 'src/music/fart.mp3',
-        duration: '00:07'
-      },  
-    {      
       title: 'Gyöngyhajú Lány',
       source: 'src/music/hungary.mp3',
       duration: '05:49'

@@ -24,6 +24,7 @@ const humidity = document.querySelector('.humidity')
 const audioplayer = document.querySelector('.audioplayer')
 const playButton = document.querySelector('.start-track')
 const trackList = document.querySelector('.track-list')
+const currentTrackDisplay =document.querySelector('.current-track-display')
 const previousButton = document.querySelector('.previous');
 const nextButton = document.querySelector('.next');
 const progressBar = document.querySelector('.progress-bar')
@@ -206,11 +207,7 @@ function playAudio(){
         playButton.classList.add('pause');
         currentTrackBackground()
         audioplayer.play()
-        setTimeout(()=>{
-            if(audioplayer.ended){
-                nextTrack();
-            }
-        },Math.floor(audioplayer.duration) + 1000)
+        currentTrackDisplay.textContent = playlist[currentTrack].title;
     }
 }
 
