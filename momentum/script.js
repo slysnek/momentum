@@ -34,12 +34,32 @@ const currentTimeDisplay = document.querySelector('.current-time')
 const volumeProgressBar = document.querySelector('.volume-progress-bar')
 const volumeProgress = document.querySelector('.volume-progress')
 const volumeButton = document.querySelector('.volume-button')
+//настройки
+const settings = {
+    language: ["ru", "en"],
+    blocks: ['.clock','.calendar','.greeting-wrapper', '.quote-wrapper', '.weather-wrapper', '.audio-player-wrapper']
+}
 
 let randomNumber = getNumforBackgroundandQuote()
 , randomNumberforQuote = getNumforBackgroundandQuote();
 
 let isPlay = false;
 let currentTrack = 0;
+
+//скрытие
+function hideBlocks(){
+    const settingButtons = document.querySelectorAll('.hide-button')
+    for(let i = 0; i < settingButtons.length; i++){
+        settingButtons[i].addEventListener('click', () => {
+            let el = document.querySelector(settings.blocks[i])
+            let activeButton = settingButtons[i]
+            el.classList.toggle('hidden')
+            activeButton.classList.toggle('hide-button-toggle')
+        })
+    }
+}
+hideBlocks();
+
 
 //время и календарь
 function showTimeandDate(){

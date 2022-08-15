@@ -244,3 +244,30 @@ footer{
 .off{
     background-image: url(src/volume-off.svg);
 }
+
+.hide-button{
+    background-color: lightgreen;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.hide-button:hover{
+    color: white;
+}
+
+.hide-button:active{
+    transform: scale(1.2);
+}
+
+.hidden{
+    opacity: 0;
+    transition: 1s;
+}
+
+.hide-button-toggle{
+    background-color: lightcoral;
+}
