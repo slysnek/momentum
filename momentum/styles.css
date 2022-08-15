@@ -78,6 +78,25 @@ footer{
     color: white;
 }
 
+.weather-search{
+    display: flex;
+    flex-direction: row;
+}
+
+.search{
+    height: 32px;
+    width: 32px;
+    background-size: 20px;
+    background-image: url(src/mag-glass.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.search:hover{
+    transform: scale(1.2);
+}
+
 .arrows{
     height: 40px;
     width: 40px;

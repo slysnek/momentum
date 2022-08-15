@@ -20,6 +20,8 @@ const weatherDescription = document.querySelector('.weather-description')
 const city = document.querySelector('.city')
 const wind = document.querySelector('.wind')
 const humidity = document.querySelector('.humidity')
+const search = document.querySelector('.search')
+const userInputWeather = document.querySelector('.city');
 //аудиоплеер
 const audioplayer = document.querySelector('.audioplayer')
 const playButton = document.querySelector('.start-track')
@@ -39,8 +41,8 @@ const eng = document.querySelector('.english');
 const rus = document.querySelector('.russian')
 //настройки
 const settings = {
-    language: ["ru", "en"],
-    blocks: ['.clock','.calendar','.greeting-wrapper', '.quote-wrapper', '.weather-wrapper', '.audio-player-wrapper']
+    blocks: ['.clock','.calendar','.greeting-wrapper',
+     '.quote-wrapper', '.weather-wrapper', '.audio-player-wrapper']
 }
 const settingButtons = document.querySelectorAll('.hide-button')
 //рандомы
@@ -49,7 +51,9 @@ randomNumberforQuote = getNumforBackgroundandQuote();
 //аудиоплеер
 let isPlay = false;
 let currentTrack = 0;
-
+//таймеры функций
+let timeTimeout;
+let greetTimeout;
 
 //скрытие блоков
 function hideBlocks(){
@@ -60,11 +64,8 @@ function hideBlocks(){
             el.classList.toggle('hidden')
             activeButton.classList.toggle('hide-button-toggle')
             if(activeButton.classList.contains('hide-button-toggle')){
-                console.log('saved');
                 window.localStorage.setItem(settings.blocks[i], true)
-                console.log(window.localStorage.getItem(settings.blocks[i]));
             } else {
-                console.log('deleted');
                 window.localStorage.removeItem(settings.blocks[i])
                 console.log(window.localStorage.getItem(settings.blocks[i]));
             }
@@ -73,49 +74,114 @@ function hideBlocks(){
 }
 //достаем и применяем настройки (через листенер внизу)
 function getSettings(){
-    console.log(localStorage);
     for(let i = 0; i < settings.blocks.length; i++){
-        console.log('name of block from settings: '+settings.blocks[i]);
-        console.log('its value: '+localStorage.getItem(settings.blocks[i]));
-        console.log('its type:' +typeof(localStorage.getItem(settings.blocks[i])));
         if(localStorage.getItem(settings.blocks[i]) == 'true'){
-            console.log('is true');
             document.querySelector(settings.blocks[i]).classList.toggle('hidden')
             settingButtons[i].classList.toggle('hide-button-toggle')
         }
     }
 }
 //перевод
-const translation = {
+let language = "rus";
 
+const translation = {
+    eng: {
+        calendar: "en-En",
+        weatherLang: "en",
+        weatherOptions: ['Temperature', 'Wind', 'Humidity'],
+        weatherError: ["The field with the name of the city is empty. Enter the name of your city to display the weather.", "Enter the correct city name!"],
+        prefixToGreeting: "Good ",
+        dateOfTime: ["morning", "afternoon", "evening", "night"],
+        timeOptions: {month: 'numeric', day:'numeric', weekday: 'long'},
+        quotes: "src/quotes(eng).json",
+        buttons: ["Clock", "Date", "Greeting", "Quotes", "Weather", "Audioplayer"]
+    },
+    rus:{
+        calendar:"ru-Ru",
+        weatherLang: "ru",
+        weatherOptions: ['Температура', 'Ветер', 'Влажность'],
+        weatherError: ["Поле с названием города пусто. Введите название вашего города для отображения погоды.", "Введите правильное название города!"],
+        prefixToGreeting: "",
+        dateOfTime: ["Доброе утро", "Добрый день", "Добрый вечер", "Доброй ночи"],
+        timeOptions: {month: 'long', day:'numeric', weekday: 'long'},
+        quotes: "src/quotes.json",
+        buttons: ["Часы", "Дата", "Приветствие", "Цитаты", "Погода", "Плеер"]
+    } 
+}
+
+function translateToEng(){
+    language = "eng";
+
+    clearTimeout(timeTimeout);
+    clearTimeout(greetTimeout)
+
+    getQuotes(language);
+    showTimeandDate(language);
+    greetTheUser(language);
+    getWeather(language);
+    displayQuotes();
+    city.placeholder = "your city?"
+
+    for(let i = 0; i < settingButtons.length; i++){
+        settingButtons[i].textContent = translation[language].buttons[i]
+    }
+}
+
+function translateToRus(){
+    language = "rus";
+
+    clearTimeout(timeTimeout);
+    clearTimeout(greetTimeout)
+
+    getQuotes(language);
+    showTimeandDate(language);
+    greetTheUser(language);
+    getWeather(language);
+    displayQuotes();
+    city.placeholder = "ваш город?"
+
+    for(let i = 0; i < settingButtons.length; i++){
+        settingButtons[i].textContent = translation[language].buttons[i]
+    }
+}
+//запоминаем язык
+function setLanguage(){
+    localStorage.setItem('language', language)
+}
+//применяем язык при загрузке и переводим кнопки
+function getLanguage(){
+    language = localStorage.getItem('language')
+    for(let i = 0; i < settingButtons.length; i++){
+        settingButtons[i].textContent = translation[language].buttons[i]
+    }
 }
 
 //время и календарь
-function showTimeandDate(){
+function showTimeandDate(language){
     const date = new Date();
-    const options = {month: 'long', day:'numeric', weekday: 'long'};
+    const options = translation[language].timeOptions;
     clock.textContent = date.toLocaleTimeString();
-    calendar.textContent = date.toLocaleDateString('ru-RU', options);
-    setTimeout(showTimeandDate, 1000)
+    calendar.textContent = date.toLocaleDateString(translation[language].calendar, options);
+    timeTimeout = setTimeout(showTimeandDate, 1000, language);
 }
 //приветствие
-function greetTheUser(){
+function greetTheUser(language){
     const date = new Date();
     const hours = date.getHours();
-    const timeOfDay = getTimeOfDay(hours)
-    greeting.textContent = `Good ${timeOfDay},`
-    setTimeout(greetTheUser, 1000)
+    const timeOfDay = getTimeOfDay(hours, language)
+    greeting.textContent = `${translation[language].prefixToGreeting} ${timeOfDay},`
+    greetTimeout = setTimeout(greetTheUser, 1000, language)
 }
 //получение времени суток в зависимости от часов
-function getTimeOfDay(hours){
+function getTimeOfDay(hours, language){
     if(hours >= 6 && hours < 12){
-        return 'morning'
+        return translation[language].dateOfTime[0]
     } else if(hours >= 12 && hours < 18){
-        return 'afternoon'
+        return translation[language].dateOfTime[1]
     } else if(hours >= 18 && hours < 24){
-        return 'evening'
+        return translation[language].dateOfTime[2]
     } else if(hours >= 0 && hours < 6){
-        return 'night'
+        return translation[language].dateOfTime[3]
     }
 }
 //сохранение имени
@@ -133,7 +199,7 @@ function getName(){
 function setBackgroundImage(){
     const date = new Date();
     const hours = date.getHours();
-    const timeOfDay = getTimeOfDay(hours);
+    const timeOfDay = getTimeOfDay(hours, 'eng');
     randomNumber = randomNumber.toString();
     if(randomNumber.length === 1){
         randomNumber = randomNumber.padStart(2, '0')
@@ -166,8 +232,8 @@ function getPreviousSlide(){
     setBackgroundImage();
 }
 //получаем асинхронно цитаты из локального файла
-async function getQuotes(){
-    let text = await fetch('src/quotes.json');
+async function getQuotes(language){
+    let text = await fetch(translation[language].quotes);
     let quotes = await text.json();
     if(quotes){
         return quotes;
@@ -177,38 +243,34 @@ async function getQuotes(){
 }
 //отображаем цитаты и автора 
 async function displayQuotes(){
-    let quotes = await getQuotes();
+    let quotes = await getQuotes(language);
     randomNumberforQuote = getNumforBackgroundandQuote();
     quote.innerHTML = quotes[randomNumberforQuote].text;
     author.innerHTML = quotes[randomNumberforQuote].author + ' ©';
 }
 //получаем данные о погоде с апишки
-async function getWeather(){
+async function getWeather(language){
     let cityName = await getCity();
     if (cityName == undefined){
         city.value = ""
     }
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&lang=ru&appid=e25dd9614f6f0f39ce1170ade40d041d&units=metric`;
+        let lang = translation[language].weatherLang;
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&lang=${lang}&appid=e25dd9614f6f0f39ce1170ade40d041d&units=metric`;
     try{
         let result = await fetch(url);
         let weatherData = await result.json();
-        console.log(weatherData.weather[0].id,
-        weatherData.weather[0].description,
-        weatherData.main.temp,
-        weatherData.wind.speed,
-        weatherData.main.humidity);
         weatherIcon.className = 'weather-icon owf';
         weatherIcon.classList.add(`owf-${weatherData.weather[0].id}`);
-        temperature.textContent = `Температура: ${Math.round(weatherData.main.temp)}°C`;
-        wind.textContent = `Ветер: ${Math.round(weatherData.wind.speed)} м/с`;
-        humidity.textContent = `Влажность: ${weatherData.main.humidity} %`;
+        temperature.textContent = `${translation[language].weatherOptions[0]}: ${Math.round(weatherData.main.temp)}°C`;
+        wind.textContent = `${translation[language].weatherOptions[1]}: ${Math.round(weatherData.wind.speed)} м/с`;
+        humidity.textContent = `${translation[language].weatherOptions[2]}: ${weatherData.main.humidity} %`;
         weatherDescription.textContent = weatherData.weather[0].description;
     }
     catch(error){
         if(cityName === undefined){
-            await alert("Поле с названием города пусто. Введите название вашего города для отображения погоды.");
+            await alert(translation[language].weatherError[0]);
         } else{
-            await alert("Введите правильное название города!");
+            await alert(translation[language].weatherError[1]);
         }
     }
 }
@@ -333,27 +395,33 @@ volumeButton.addEventListener("click", () => {
     }
 })
 
-showTimeandDate();
-greetTheUser();
+
+getLanguage();
+
+window.addEventListener('beforeunload', setLanguage);
 window.addEventListener('beforeunload', setName);
-window.addEventListener('load', getName);
 window.addEventListener('beforeunload', setCity);
+window.addEventListener('load', getName);
 window.addEventListener('load', getCity);
 
+showTimeandDate(language);
+greetTheUser(language);
 setBackgroundImage();
 displayQuotes();
-getWeather();
 getTracks();
 updateTrackTime()
 hideBlocks();
 
 leftArrow.addEventListener('click', getPreviousSlide)
 rightArrow.addEventListener('click', getNextSlide)
-
 shuffle.addEventListener('click', displayQuotes)
-
 city.addEventListener('change', setCity)
-city.addEventListener('change', getWeather)
+city.addEventListener('change', () => {
+    getWeather(language)}
+)
+search.addEventListener('click', () => {
+    getWeather(language)}
+)
 
 audioplayer.addEventListener('loadeddata', getAudioLength)
 playButton.addEventListener('click', playAudio)
@@ -362,3 +430,6 @@ nextButton.addEventListener('click', nextTrack)
 audioplayer.addEventListener('ended', nextTrack)
 
 window.addEventListener('load', getSettings)
+
+eng.addEventListener('click', translateToEng)
+rus.addEventListener('click', translateToRus)
