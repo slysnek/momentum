@@ -11,6 +11,7 @@ const leftArrow = document.querySelector('.arrow-left')
 const rightArrow = document.querySelector('.arrow-right')
 const select = document.querySelector('.select')
 const apitext = document.querySelector('.api-text')
+const imageTags = document.querySelector('.tags')
 //цитаты
 const quote = document.querySelector('.quote')
 const author = document.querySelector('.author')
@@ -97,8 +98,6 @@ function getApi(){
     select.value = apiValue;
     return api;
 }
-select.addEventListener('change', getApiToWorkWith)
-window.addEventListener('load', getApi)
 //достаем и применяем настройки (через листенер внизу)
 function getSettings(){
     for(let i = 0; i < settings.blocks.length; i++){
@@ -248,7 +247,8 @@ async function getPhotofromFlickr(timeOfDay, tags="nature"){
     console.log(url);
     const result = await fetch(url);
     const image = await result.json();
-    return(image.photos.photo[Math.floor(Math.random() * (100 - 90 + 1))+90].url_l);
+    console.log(image.photos.photo);
+    return(image.photos.photo[Math.floor(Math.random() * (100 - 2 + 1))+2].url_l);
 }
 //слайдер фоновых изображений
 async function setBackgroundImage(){
@@ -471,16 +471,12 @@ getLanguage();
 window.addEventListener('beforeunload', setLanguage);
 window.addEventListener('beforeunload', setName);
 window.addEventListener('beforeunload', setCity);
-
+window.addEventListener('load', getApi)
 window.addEventListener('load', getName);
 window.addEventListener('load', getCity);
 
-
-
 showTimeandDate(language);
 greetTheUser(language);
-//getPhotofromUnsplash();
-//getPhotofromFlickr();
 setBackgroundImage();
 displayQuotes();
 getTracks();
@@ -508,4 +504,7 @@ window.addEventListener('load', getSettings)
 
 eng.addEventListener('click', translateToEng)
 rus.addEventListener('click', translateToRus)
+
+select.addEventListener('change', getApiToWorkWith)
+imageTags.addEventListener('change', setBackgroundImage)
 
