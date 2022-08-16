@@ -201,6 +201,9 @@ function setLanguage(){
 //применяем язык при загрузке и переводим кнопки
 function getLanguage(){
     language = localStorage.getItem('language')
+    if (!language){
+        language="rus"
+    }
     for(let i = 0; i < settingButtons.length; i++){
         settingButtons[i].textContent = translation[language].buttons[i];
     }
