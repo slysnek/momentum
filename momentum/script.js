@@ -42,6 +42,7 @@ const volumeButton = document.querySelector('.volume-button')
 const eng = document.querySelector('.english');
 const rus = document.querySelector('.russian')
 //настройки
+const settingsButton = document.querySelector('.settings-button');
 const settings = {
     blocks: ['.clock','.calendar','.greeting-wrapper',
      '.quote-wrapper', '.weather-wrapper', '.audio-player-wrapper']
@@ -508,3 +509,7 @@ rus.addEventListener('click', translateToRus)
 select.addEventListener('change', getApiToWorkWith)
 imageTags.addEventListener('change', setBackgroundImage)
 
+settingsButton.addEventListener('click', () => {
+    let x = document.querySelector('.header-settings')
+    x.classList.toggle('hidden-settings')
+})

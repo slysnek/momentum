@@ -16,6 +16,7 @@ body{
 }
 
 header{
+    position: absolute;
     padding: 15px;
     display: flex;
     justify-content: center;
@@ -24,15 +25,16 @@ header{
     background-color: #333333;
     opacity: 0.9;
     color: white;
+    transition: 1s ease-in;
 }
 
 main{
     font-size: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    padding: 5% 10%;
+    padding: 5% 8% 5% 8%;
     height: 100%;
     width: 100%;
     color: white;
@@ -88,7 +90,6 @@ footer{
 }
 
 .weather-wrapper{
-    padding-bottom: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -99,6 +100,7 @@ footer{
 }
 
 .weather-icon{
+    padding-top: 5px;
     font-size: 50px;
 }
 
@@ -332,11 +334,17 @@ footer{
 }
 
 .hidden{
+    transform: translateY(-300px);
     opacity: 0;
 }
 
+.hidden-settings{
+    transform: translateY(-300px);
+    transform: scale(0);
+}
+
 .slow{
-    transition: 1s;
+    transition: 0.7s ease-in-out;
 }
 
 .hide-button-toggle{
@@ -378,4 +386,88 @@ footer{
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.settings-button-container{
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.settings-button{
+    position: absolute;
+    top:0;
+    right: 0;
+    padding: 10px;
+    border-radius: 8px;
+    height: 50px;
+    width: 50px;
+    background-size: 40px;
+    background-position: center;
+    background-image: url(src/gear.svg);
+    background-repeat: no-repeat;
+}
+
+.settings-button:hover{
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.7);
+    transition: 0.5s;
+}
+
+.api-wrapper{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.tags{
+    text-align: center;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+}
+
+@media screen and (max-width: 1030px){
+    main{
+        padding: 20% 8% 15% 8%
+    }
+    .player-and-weather-wrapper{
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 660px){
+    header{
+        flex-direction: column;
+        gap: 10px;
+    }
+    .api-wrapper{
+        gap: 10px;
+    }
+    .hide-button{
+        width: 200px;
+    }
+    .button-wrapper{
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+    }
+    .player-and-weather-wrapper{
+        padding: 0px;
+        padding-top: 20px;
+        padding-bottom: 0;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .weather-search{
+        flex-direction: column;
+        align-items: center;
+    }
+    main{
+        padding: 10% 8% 20% 8%
+    }
 }
