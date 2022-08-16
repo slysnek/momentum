@@ -42,6 +42,7 @@ const volumeButton = document.querySelector('.volume-button')
 const eng = document.querySelector('.english');
 const rus = document.querySelector('.russian')
 //to do list
+let todolistWrapper = document.querySelector('.todo-wrapper')
 let addTask = document.querySelector('.add-item');
 let crosses = document.querySelectorAll('.cross')
 let checkmarks = document.querySelectorAll('.checkmark')
@@ -52,7 +53,7 @@ let listWrappers = document.querySelectorAll('.list-wrapper')
 const settingsButton = document.querySelector('.settings-button');
 const settings = {
     blocks: ['.clock','.calendar','.greeting-wrapper',
-     '.quote-wrapper', '.weather-wrapper', '.audio-player-wrapper']
+     '.quote-wrapper', '.weather-wrapper', '.audio-player-wrapper', '.todo-wrapper']
 }
 const settingButtons = document.querySelectorAll('.hide-button')
 //рандомы
@@ -128,7 +129,7 @@ const translation = {
         dateOfTime: ["morning", "afternoon", "evening", "night"],
         timeOptions: {month: 'numeric', day:'numeric', weekday: 'long'},
         quotes: "src/quotes(eng).json",
-        buttons: ["Clock", "Date", "Greeting", "Quotes", "Weather", "Audioplayer"],
+        buttons: ["Clock", "Date", "Greeting", "Quotes", "Weather", "Audioplayer", "ToDo List"],
         api: "Choose API for background:",
         tags: "enter tags"
     },
@@ -141,7 +142,7 @@ const translation = {
         dateOfTime: ["Доброе утро", "Добрый день", "Добрый вечер", "Доброй ночи"],
         timeOptions: {month: 'long', day:'numeric', weekday: 'long'},
         quotes: "src/quotes.json",
-        buttons: ["Часы", "Дата", "Приветствие", "Цитаты", "Погода", "Плеер"],
+        buttons: ["Часы", "Дата", "Приветствие", "Цитаты", "Погода", "Плеер", "Список дел"],
         api: "Выберите апи для фона:",
         tags: "введите тэги"
     } 

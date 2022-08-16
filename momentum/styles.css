@@ -133,6 +133,7 @@ footer{
 }
 
 .arrows{
+    z-index: 1;
     height: 40px;
     width: 40px;
     position: absolute;
@@ -505,6 +506,8 @@ footer{
 
 @media screen and (max-width: 1030px){
     main{
+        margin-top: 100px;
+        margin-bottom: 60px;
         padding: 20% 8% 15% 8%
     }
     .player-and-weather-wrapper{
@@ -543,5 +546,17 @@ footer{
     }
     main{
         padding: 10% 8% 20% 8%
+    }
+}
+
+@media screen and (max-width: 390px){
+    .todo-list{
+        width: 290px;
+    }
+    .clock-and-greeting-wrapper{
+        padding: 20px 5px 20px 5px;
+    }
+    main{
+        padding: 10% 3% 20% 3%;
     }
 }
