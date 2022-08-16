@@ -142,7 +142,7 @@ const translation = {
         timeOptions: {month: 'long', day:'numeric', weekday: 'long'},
         quotes: "src/quotes.json",
         buttons: ["Часы", "Дата", "Приветствие", "Цитаты", "Погода", "Плеер"],
-        api: "Выберите апи для заднего фона:",
+        api: "Выберите апи для фона:",
         tags: "введите тэги"
     } 
 }
@@ -550,7 +550,7 @@ function updateList(){
     listWrappers = document.querySelectorAll('.list-wrapper')
 }
 
-function createNewTask (task="(изменить задачу)") {
+function createNewTask (task="(edit task)") {
     let newWrapper = document.createElement('div');
     let newTask = document.createElement('li');
     newTask.textContent = task;
@@ -580,7 +580,6 @@ function createNewTask (task="(изменить задачу)") {
     newWrapper.appendChild(newCross)
     list.appendChild(newWrapper);
 }
-
 
 function toDoList(){
     //update list

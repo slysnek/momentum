@@ -16,6 +16,7 @@ body{
 }
 
 header{
+    z-index: 1;
     position: absolute;
     padding: 15px;
     display: flex;
@@ -355,7 +356,7 @@ footer{
     align-items: center;
     width: 10%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
 }
 
@@ -395,6 +396,7 @@ footer{
 }
 
 .settings-button{
+    z-index: 2;
     position: absolute;
     top:0;
     right: 0;
@@ -429,6 +431,8 @@ footer{
 }
 
 .todo-wrapper{
+    padding-top: 20px;
+    padding-bottom: 20px;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -441,6 +445,10 @@ footer{
     width:350px;
     padding: 10px;
     background-color: rgba(128, 185, 235, 0.8);
+}
+
+.list-item{
+    cursor: pointer;
 }
 
 .list-wrapper{
