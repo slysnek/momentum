@@ -35,7 +35,7 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 5% 8% 5% 8%;
+    padding: 10% 8% 5% 8%;
     height: 100%;
     width: 100%;
     color: white;
@@ -43,6 +43,7 @@ main{
 
 footer{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -502,6 +503,34 @@ footer{
 
 .todo-name{
     text-align: center;
+}
+
+.logo-wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rs-logo{
+    height: 60px;
+    width: 60px;
+    background-image: url(src/rs_school_js.svg);
+    background-size: 60px;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.git-logo{
+    height: 60px;
+    width: 60px;
+    background-image: url(src/github.svg);
+    background-size: 60px;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 1030px){
