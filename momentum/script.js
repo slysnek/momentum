@@ -203,6 +203,7 @@ function getLanguage(){
     language = localStorage.getItem('language')
     for(let i = 0; i < settingButtons.length; i++){
         settingButtons[i].textContent = translation[language].buttons[i]
+        console.log(settingButtons[i].textContent);
     }
     apitext.textContent = translation[language].api;
     document.querySelector('.tags').placeholder = translation[language].tags
