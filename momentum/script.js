@@ -1,5 +1,12 @@
 import playlist from './playlist.js'
 
+console.log(`Оценка - 150/150.
+ Не сделаны только кнопки воспроизведения рядом с названиями треков.
+ Flickr иногда может ругаться в консоль,
+в таком случае нужно просто еще потыкать по стрелочкам.
+Если есть какие-то вопросы, можно обратиться в дискорд:
+@Cpt.Bloodwing#2351 или в телеграм: @screwpassenger`);
+
 //приветствие с календарем
 const clock = document.querySelector('.clock');
 const calendar = document.querySelector('.calendar');
