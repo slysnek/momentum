@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
+
 <body>
     <header class="header-settings">
         <div class="api-wrapper">
@@ -37,9 +39,7 @@
         </div>
     </header>
     <main>
-
-            <div class="settings-button"></div>
-
+        <div class="settings-button"></div>
         <div class="player-and-weather-wrapper">
             <div class="audio-player-wrapper slow">
                 <audio class="audioplayer"></audio>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="volume-button on"></div>
                 </div>
-                <ul class = "track-list"></ul>
+                <ul class="track-list"></ul>
                 <div class="player-buttons">
                     <div class="previous player-button"></div>
                     <div class="start-track play player-button"></div>
@@ -75,7 +75,7 @@
                     <input class="name" placeholder="(enter your name)">
                 </div>
             </div>
-             <div class="weather-wrapper slow">
+            <div class="weather-wrapper slow">
                 <div class="weather-search">
                     <input class="city" type="text" placeholder="ваш город?">
                     <div class="search"></div>
@@ -85,16 +85,22 @@
                 <div class="wind"></div>
                 <div class="humidity"></div>
                 <div class="weather-description"></div>
+            </div>
         </div>
-    </div>
-        <div class="arrows-wrapper" >
-            <img src="src/arrow.svg" class="arrows arrow-left" alt='left arrow'/>
-            <img src="src/arrow.svg" class="arrows arrow-right" alt='right arrow'/>
+        <div class="todo-wrapper">
+        <ul class="todo-list">
+            <div class="todo-name">ToDo List</div>
+        </ul>
+        <div class="add-item">Добавить задачу</div>
+        </div>
+        <div class="arrows-wrapper">
+            <img src="src/arrow.svg" class="arrows arrow-left" alt='left arrow' />
+            <img src="src/arrow.svg" class="arrows arrow-right" alt='right arrow' />
         </div>
     </main>
     <footer>
         <div class="quote-wrapper slow">
-            <img src="src/recycle.svg" class="shuffle-button" alt='shuffle button'/>
+            <img src="src/recycle.svg" class="shuffle-button" alt='shuffle button' />
             <div class="quote">Я вам запрещаю быть как Student1</div>
             <div class="author">Джейсон Стейтем</div>
         </div>
@@ -102,4 +108,5 @@
 </body>
 <script type="module" src="script.js"></script>
 <script type="module" src="playlist.js"></script>
+
 </html>

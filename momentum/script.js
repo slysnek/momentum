@@ -41,6 +41,13 @@ const volumeButton = document.querySelector('.volume-button')
 //перевод
 const eng = document.querySelector('.english');
 const rus = document.querySelector('.russian')
+//to do list
+let addTask = document.querySelector('.add-item');
+let crosses = document.querySelectorAll('.cross')
+let checkmarks = document.querySelectorAll('.checkmark')
+let listItems = document.querySelectorAll('.list-item');
+let list = document.querySelector('.todo-list')
+let listWrappers = document.querySelectorAll('.list-wrapper')
 //настройки
 const settingsButton = document.querySelector('.settings-button');
 const settings = {
@@ -236,7 +243,6 @@ function getName(){
 //работа с апи ансплэш
 async function getPhotofromUnsplash(timeOfDay, tags="nature"){
     const url = `https://api.unsplash.com/photos/random?orientation=landscape&query=${tags}${timeOfDay}&client_id=mwZicQvxtMJy1pFt7ycw5CRtXnwgM0iMVnGrqDuDp18`;
-    console.log(url);
     const result = await fetch(url);
     const image = await result.json(timeOfDay);
     return(image.urls.regular);
@@ -266,7 +272,6 @@ async function setBackgroundImage(){
     if (tags){
         tags += '&'
     }
-    console.log(tags);
     let imageSource = ""
     if(apiImage === "Github"){
         imageSource = `https://raw.githubusercontent.com/slysnek/momentum-backgrounds/main/${timeOfDay}/${randomNumber}.webp`;
@@ -275,7 +280,6 @@ async function setBackgroundImage(){
     } else if(apiImage === "Flickr"){
         imageSource = await getPhotofromFlickr(timeOfDay, tags);
     }
-    console.log(imageSource);
     let image = new Image();
     image.src = imageSource;
     image.addEventListener('load', function () {
@@ -483,6 +487,7 @@ displayQuotes();
 getTracks();
 updateTrackTime()
 hideBlocks();
+toDoList();
 
 leftArrow.addEventListener('click', getPreviousSlide)
 rightArrow.addEventListener('click', getNextSlide)
@@ -513,3 +518,94 @@ settingsButton.addEventListener('click', () => {
     let x = document.querySelector('.header-settings')
     x.classList.toggle('hidden-settings')
 })
+
+window.addEventListener('beforeunload', setTasks)
+window.addEventListener('load', getTasks)
+
+//to-do list
+function setTasks(){
+    let allTasks = document.querySelectorAll('.list-item')
+    let count = 0;
+    for (let i = 0; i < allTasks.length; i++) {
+        localStorage.setItem(`task${i}`, allTasks[i].textContent)
+        count++
+    }
+    localStorage.setItem('count', count)
+}
+
+function getTasks(){
+    let count = localStorage.getItem('count')
+    for (let i = 0; i < count; i++) {
+        let task = localStorage.getItem(`task${i}`)
+        createNewTask(task)
+    }
+}
+
+function updateList(){
+    addTask = document.querySelector('.add-item');
+    crosses = document.querySelectorAll('.cross')
+    checkmarks = document.querySelectorAll('.checkmark')
+    listItems = document.querySelectorAll('.list-item');
+    list = document.querySelector('.todo-list')
+    listWrappers = document.querySelectorAll('.list-wrapper')
+}
+
+function createNewTask (task="(изменить задачу)") {
+    let newWrapper = document.createElement('div');
+    let newTask = document.createElement('li');
+    newTask.textContent = task;
+    let newCross = document.createElement('div')
+    let newCheckmark = document.createElement('div')
+
+    newWrapper.classList.add('list-wrapper')
+    newTask.classList.add('list-item')
+    newCross.classList.add('cross')
+    newCheckmark.classList.add('checkmark')
+
+    newTask.addEventListener('click', () => {
+        let edit = prompt("Add a task")
+        newTask.textContent = edit;
+    })
+
+    newCross.addEventListener('click', () => {
+        newWrapper.remove()
+    })
+
+    newCheckmark.addEventListener('click', () => {
+        newTask.classList.toggle('crossed')
+    })
+
+    newWrapper.appendChild(newCheckmark)
+    newWrapper.appendChild(newTask)
+    newWrapper.appendChild(newCross)
+    list.appendChild(newWrapper);
+}
+
+
+function toDoList(){
+    //update list
+    updateList();
+    //adding new task
+    addTask.addEventListener('click', () => {
+        createNewTask()
+    })
+    //deleting tasks
+    for (let i = 0; i < crosses.length; i++) {
+        crosses[i].addEventListener('click', () =>{
+            listWrappers[i].remove()
+        })    
+    }
+    //edit tasks
+    for (let i = 0; i < listItems.length; i++) {
+        listItems[i].addEventListener('click', () => {
+            let edit = prompt("Add a task")
+            listItems[i].textContent = edit;
+        })    
+    }
+    //solve the task
+    for (let i = 0; i < checkmarks.length; i++) {
+        checkmarks[i].addEventListener('click', () => {
+            listItems[i].classList.toggle('crossed');
+        })    
+    }
+}

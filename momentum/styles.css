@@ -339,8 +339,7 @@ footer{
 }
 
 .hidden-settings{
-    transform: translateY(-300px);
-    transform: scale(0);
+    transform: translateY(-700px);
 }
 
 .slow{
@@ -427,6 +426,73 @@ footer{
     text-align: center;
     font-family: 'Ubuntu', sans-serif;
     font-size: 20px;
+}
+
+.todo-wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo-list{
+    list-style: none;
+    width:350px;
+    padding: 10px;
+    background-color: rgba(128, 185, 235, 0.8);
+}
+
+.list-wrapper{
+    border-bottom: 1px solid black ;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cross{
+    height: 16px;
+    width: 16px;
+    background-image: url(src/cross.svg);
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.cross:hover{
+    transform: scale(1.2);
+}
+
+.checkmark{
+    height: 16px;
+    width: 16px;
+    background-image: url(src/checkmark.svg);
+    background-size: 16px;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.checkmark:hover{
+    transform: scale(1.2);
+}
+
+.crossed{
+    text-decoration: line-through;
+}
+
+.add-item{
+    cursor: pointer;
+}
+
+.add-item:hover{
+    transform: scale(1.1);
+}
+
+.todo-name{
+    text-align: center;
 }
 
 @media screen and (max-width: 1030px){
