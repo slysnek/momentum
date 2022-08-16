@@ -69,7 +69,6 @@ function hideBlocks(){
                 window.localStorage.setItem(settings.blocks[i], true)
             } else {
                 window.localStorage.removeItem(settings.blocks[i])
-                console.log(window.localStorage.getItem(settings.blocks[i]));
             }
         })
     }
@@ -230,15 +229,15 @@ function getName(){
     }
 }
 //работа с апи ансплэш
-async function getPhotofromUnsplash(){
-    const url = `https://api.unsplash.com/photos/random?orientation=landscape&query=nature&client_id=mwZicQvxtMJy1pFt7ycw5CRtXnwgM0iMVnGrqDuDp18`;
+async function getPhotofromUnsplash(timeOfDay){
+    const url = `https://api.unsplash.com/photos/random?orientation=landscape&query=nature&${timeOfDay}&client_id=mwZicQvxtMJy1pFt7ycw5CRtXnwgM0iMVnGrqDuDp18`;
     const result = await fetch(url);
-    const image = await result.json();
+    const image = await result.json(timeOfDay);
     return(image.urls.regular);
 }
 //работа с апи фликр
-async function getPhotofromFlickr(){
-    const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=967b0e577e1c06b79eeb679cb791b1ec&tags=nature&extras=url_l&format=json&nojsoncallback=1`;
+async function getPhotofromFlickr(timeOfDay){
+    const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=967b0e577e1c06b79eeb679cb791b1ec&tags=nature&${timeOfDay}&extras=url_l&format=json&nojsoncallback=1`;
     const result = await fetch(url);
     const image = await result.json();
     return(image.photos.photo[getNumforBackgroundandQuote()].url_l);
@@ -258,9 +257,9 @@ async function setBackgroundImage(){
     if(apiImage === "Github"){
         imageSource = `https://raw.githubusercontent.com/slysnek/momentum-backgrounds/main/${timeOfDay}/${randomNumber}.webp`;
     } else if(apiImage === "Unsplash"){
-        imageSource = await getPhotofromUnsplash();
+        imageSource = await getPhotofromUnsplash(timeOfDay);
     } else if(apiImage === "Flickr"){
-        imageSource = await getPhotofromFlickr();
+        imageSource = await getPhotofromFlickr(timeOfDay);
     }
     console.log(imageSource);
     let image = new Image();
