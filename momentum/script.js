@@ -9,6 +9,8 @@ const userName = document.querySelector('.name')
 const body = document.querySelector('body')
 const leftArrow = document.querySelector('.arrow-left')
 const rightArrow = document.querySelector('.arrow-right')
+const select = document.querySelector('.select')
+const apitext = document.querySelector('.api-text')
 //цитаты
 const quote = document.querySelector('.quote')
 const author = document.querySelector('.author')
@@ -72,6 +74,33 @@ function hideBlocks(){
         })
     }
 }
+//выбор апи в настройках
+function getApiToWorkWith(){
+        let option = (select.options[select.selectedIndex].text);
+        let optionValue = select.value;
+        setApi(option, optionValue);
+        setBackgroundImage();
+}
+//сохраняем апи
+function setApi(option, optionValue){
+    localStorage.setItem('api', option)
+    localStorage.setItem('selVal', optionValue)
+}
+//загружаем апи
+function getApi(){
+    let api = "Github"
+    let apiValue = 0;
+    if(localStorage.getItem('api')){
+        api = localStorage.getItem('api')
+    }
+    if(localStorage.getItem('selVal')){
+        apiValue = localStorage.getItem('selVal')
+    }
+    select.value = apiValue;
+    return api;
+}
+select.addEventListener('change', getApiToWorkWith)
+window.addEventListener('load', getApi)
 //достаем и применяем настройки (через листенер внизу)
 function getSettings(){
     for(let i = 0; i < settings.blocks.length; i++){
@@ -94,7 +123,8 @@ const translation = {
         dateOfTime: ["morning", "afternoon", "evening", "night"],
         timeOptions: {month: 'numeric', day:'numeric', weekday: 'long'},
         quotes: "src/quotes(eng).json",
-        buttons: ["Clock", "Date", "Greeting", "Quotes", "Weather", "Audioplayer"]
+        buttons: ["Clock", "Date", "Greeting", "Quotes", "Weather", "Audioplayer"],
+        api: "Choose API for background:"
     },
     rus:{
         calendar:"ru-Ru",
@@ -105,7 +135,8 @@ const translation = {
         dateOfTime: ["Доброе утро", "Добрый день", "Добрый вечер", "Доброй ночи"],
         timeOptions: {month: 'long', day:'numeric', weekday: 'long'},
         quotes: "src/quotes.json",
-        buttons: ["Часы", "Дата", "Приветствие", "Цитаты", "Погода", "Плеер"]
+        buttons: ["Часы", "Дата", "Приветствие", "Цитаты", "Погода", "Плеер"],
+        api: "Выберите апи для заднего фона:"
     } 
 }
 
@@ -125,6 +156,7 @@ function translateToEng(){
     for(let i = 0; i < settingButtons.length; i++){
         settingButtons[i].textContent = translation[language].buttons[i]
     }
+    apitext.textContent = translation[language].api;
 }
 
 function translateToRus(){
@@ -143,6 +175,7 @@ function translateToRus(){
     for(let i = 0; i < settingButtons.length; i++){
         settingButtons[i].textContent = translation[language].buttons[i]
     }
+    apitext.textContent = translation[language].api;
 }
 //запоминаем язык
 function setLanguage(){
@@ -154,6 +187,7 @@ function getLanguage(){
     for(let i = 0; i < settingButtons.length; i++){
         settingButtons[i].textContent = translation[language].buttons[i]
     }
+    apitext.textContent = translation[language].api;
 }
 
 //время и календарь
@@ -200,19 +234,17 @@ async function getPhotofromUnsplash(){
     const url = `https://api.unsplash.com/photos/random?orientation=landscape&query=nature&client_id=mwZicQvxtMJy1pFt7ycw5CRtXnwgM0iMVnGrqDuDp18`;
     const result = await fetch(url);
     const image = await result.json();
-    console.log(image.urls.regular);
+    return(image.urls.regular);
 }
 //работа с апи фликр
 async function getPhotofromFlickr(){
     const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=967b0e577e1c06b79eeb679cb791b1ec&tags=nature&extras=url_l&format=json&nojsoncallback=1`;
     const result = await fetch(url);
     const image = await result.json();
-    console.log(image.photos.photo[getNumforBackgroundandQuote()].url_l);
+    return(image.photos.photo[getNumforBackgroundandQuote()].url_l);
 }
-getPhotofromUnsplash()
-getPhotofromFlickr()
 //слайдер фоновых изображений
-function setBackgroundImage(){
+async function setBackgroundImage(){
     const date = new Date();
     const hours = date.getHours();
     const timeOfDay = getTimeOfDay(hours, 'eng');
@@ -221,8 +253,18 @@ function setBackgroundImage(){
         randomNumber = randomNumber.padStart(2, '0')
     }
     //создаем объект картинки и загружаем в бади при полной загрузке
+    const apiImage = getApi();
+    let imageSource = ""
+    if(apiImage === "Github"){
+        imageSource = `https://raw.githubusercontent.com/slysnek/momentum-backgrounds/main/${timeOfDay}/${randomNumber}.webp`;
+    } else if(apiImage === "Unsplash"){
+        imageSource = await getPhotofromUnsplash();
+    } else if(apiImage === "Flickr"){
+        imageSource = await getPhotofromFlickr();
+    }
+    console.log(imageSource);
     let image = new Image();
-    image.src = `https://raw.githubusercontent.com/slysnek/momentum-backgrounds/main/${timeOfDay}/${randomNumber}.webp`;
+    image.src = imageSource;
     image.addEventListener('load', function () {
         body.style.backgroundImage = `url(${image.src})`;
     })
@@ -417,11 +459,16 @@ getLanguage();
 window.addEventListener('beforeunload', setLanguage);
 window.addEventListener('beforeunload', setName);
 window.addEventListener('beforeunload', setCity);
+
 window.addEventListener('load', getName);
 window.addEventListener('load', getCity);
 
+
+
 showTimeandDate(language);
 greetTheUser(language);
+//getPhotofromUnsplash();
+//getPhotofromFlickr();
 setBackgroundImage();
 displayQuotes();
 getTracks();
@@ -449,3 +496,4 @@ window.addEventListener('load', getSettings)
 
 eng.addEventListener('click', translateToEng)
 rus.addEventListener('click', translateToRus)
+

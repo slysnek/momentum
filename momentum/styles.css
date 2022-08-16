@@ -319,3 +319,8 @@ footer{
     color: #333333;
     background-color: white;
 }
+
+.select{
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+}
