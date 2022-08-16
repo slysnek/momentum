@@ -38,60 +38,65 @@
         </div>
     </header>
     <main>
-        <div class="audio-player-wrapper slow">
-            <audio class="audioplayer"></audio>
-            <div class="current-track-display"></div>
-            <div class="progress-bar">
-                <div class="progress"></div>
-            </div>
-            <div class="time">
-                <div class="current-time">0:00</div>
-                <span>/</span>
-                <div class="length"></div>
-            </div>
-            <div class="volume-container">
-                <div class="volume-progress-bar">
-                    <div class="volume-progress"></div>
+        <div class="player-and-weather-wrapper">
+            <div class="audio-player-wrapper slow">
+                <audio class="audioplayer"></audio>
+                <div class="current-track-display"></div>
+                <div class="progress-bar">
+                    <div class="progress"></div>
                 </div>
-                <div class="volume-button on"></div>
+                <div class="time">
+                    <div class="current-time">0:00</div>
+                    <span>/</span>
+                    <div class="length"></div>
+                </div>
+                <div class="volume-container">
+                    <div class="volume-progress-bar">
+                        <div class="volume-progress"></div>
+                    </div>
+                    <div class="volume-button on"></div>
+                </div>
+                <ul class = "track-list"></ul>
+                <div class="player-buttons">
+                    <div class="previous player-button"></div>
+                    <div class="start-track play player-button"></div>
+                    <div class="next player-button"></div>
+                </div>
             </div>
-            <ul class = "track-list"></ul>
-            <div class="player-buttons">
-                <div class="previous player-button"></div>
-                <div class="start-track play player-button"></div>
-                <div class="next player-button"></div>
+            <div class="clock-and-greeting-wrapper">
+                <div class="clock-calendar-wrapper">
+                    <div class="clock slow">Clock</div>
+                    <div class="calendar slow">calendar</div>
+                </div>
+                <div class="greeting-wrapper slow">
+                    <div class="greeting">Hello</div>
+                    <input class="name" placeholder="(enter your name)">
+                </div>
             </div>
+             <div class="weather-wrapper slow">
+                <div class="weather-search">
+                    <input class="city" type="text" placeholder="ваш город?">
+                    <div class="search"></div>
+                </div>
+                <div class="weather-icon owf"></div>
+                <div class="temperature"></div>
+                <div class="wind"></div>
+                <div class="humidity"></div>
+                <div class="weather-description"></div>
         </div>
-        <div class="weather-wrapper slow">
-            <div class="weather-search">
-                <input class="city" type="text" placeholder="ваш город?">
-                <div class="search"></div>
-            </div>
-            <div class="weather-icon owf"></div>
-            <div class="temperature"></div>
-            <div class="wind"></div>
-            <div class="humidity"></div>
-            <div class="weather-description"></div>
-        </div>
+    </div>
         <div class="arrows-wrapper" >
             <img src="src/arrow.svg" class="arrows arrow-left" alt='left arrow'/>
             <img src="src/arrow.svg" class="arrows arrow-right" alt='right arrow'/>
         </div>
+    </main>
+    <footer>
         <div class="quote-wrapper slow">
             <img src="src/recycle.svg" class="shuffle-button" alt='shuffle button'/>
             <div class="quote">Я вам запрещаю быть как Student1</div>
             <div class="author">Джейсон Стейтем</div>
         </div>
-        <div class="clock-calendar-wrapper">
-            <div class="clock slow">Clock</div>
-            <div class="calendar slow">calendar</div>
-        </div>
-        <div class="greeting-wrapper slow">
-            <div class="greeting">Hello</div>
-            <input class="name" placeholder="(enter your name)">
-        </div>
-    </main>
-    <footer>Footer</footer>
+    </footer>
 </body>
 <script type="module" src="script.js"></script>
 <script type="module" src="playlist.js"></script>

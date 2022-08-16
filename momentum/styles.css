@@ -5,9 +5,13 @@
 }
 
 body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     font-family: 'Ubuntu', sans-serif;
     font-size: 20px;
     background-size: cover;
+    height: 100vh;
     transition: background-image 1s ease-in-out;
 }
 
@@ -17,7 +21,6 @@ header{
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 10vh;
     background-color: #333333;
     opacity: 0.9;
     color: white;
@@ -27,10 +30,11 @@ main{
     font-size: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+    padding: 5% 10%;
+    height: 100%;
     width: 100%;
-    height: 80vh;
     color: white;
 }
 
@@ -39,7 +43,7 @@ footer{
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 10vh;
+    padding: 20px;
     background-color: #333333;
     opacity: 0.9;
     color: white;
@@ -47,15 +51,20 @@ footer{
 
 .clock{
     font-size: 200%;
+    text-shadow: 4px 3px 2px black;
     text-align: center;
 }
 
 .calendar{
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    padding: 5px;
     font-size: 120%;
     text-align: center;
 }
 
 .greeting-wrapper{
+    text-shadow: 2px 2px 2px black;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -78,9 +87,32 @@ footer{
     color: white;
 }
 
+.weather-wrapper{
+    padding-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(6px);
+    text-shadow: 2px 1px 2px black;
+}
+
+.weather-icon{
+    font-size: 50px;
+}
+
 .weather-search{
     display: flex;
     flex-direction: row;
+}
+
+.city{
+    border: 0;
+    outline: 0;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+    text-align: center;
 }
 
 .search{
@@ -121,6 +153,7 @@ footer{
 }
 
 .quote-wrapper{
+    font-weight: 300;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -149,9 +182,13 @@ footer{
 }
 
 .audio-player-wrapper{
+    padding: 30px;
+    background-color: rgba(120, 120, 120, 0.8);
+    box-shadow: 0px 4px 3px black;
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: 1s;
 }
 
 .player-buttons{
@@ -201,6 +238,10 @@ footer{
 .current-track{
     background-color:rgba(255, 255, 255, 0.5);
     transition: 0.5s;
+}
+
+.current-track-display{
+    height: 28px;
 }
 
 .progress-bar{
@@ -323,4 +364,18 @@ footer{
 .select{
     font-family: 'Ubuntu', sans-serif;
     font-size: 20px;
+}
+/*placing*/
+.player-and-weather-wrapper{
+    padding: 20px;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.clock-and-greeting-wrapper{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
