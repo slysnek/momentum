@@ -551,7 +551,7 @@ footer{
 
 @media screen and (max-width: 390px){
     .todo-list{
-        width: 290px;
+        width: 270px;
     }
     .clock-and-greeting-wrapper{
         padding: 20px 5px 20px 5px;
