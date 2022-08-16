@@ -23,7 +23,6 @@ const city = document.querySelector('.city')
 const wind = document.querySelector('.wind')
 const humidity = document.querySelector('.humidity')
 const search = document.querySelector('.search')
-const userInputWeather = document.querySelector('.city');
 //аудиоплеер
 const audioplayer = document.querySelector('.audioplayer')
 const playButton = document.querySelector('.start-track')
@@ -123,7 +122,8 @@ const translation = {
         timeOptions: {month: 'numeric', day:'numeric', weekday: 'long'},
         quotes: "src/quotes(eng).json",
         buttons: ["Clock", "Date", "Greeting", "Quotes", "Weather", "Audioplayer"],
-        api: "Choose API for background:"
+        api: "Choose API for background:",
+        tags: "enter tags"
     },
     rus:{
         calendar:"ru-Ru",
@@ -135,7 +135,8 @@ const translation = {
         timeOptions: {month: 'long', day:'numeric', weekday: 'long'},
         quotes: "src/quotes.json",
         buttons: ["Часы", "Дата", "Приветствие", "Цитаты", "Погода", "Плеер"],
-        api: "Выберите апи для заднего фона:"
+        api: "Выберите апи для заднего фона:",
+        tags: "введите тэги"
     } 
 }
 
@@ -150,7 +151,8 @@ function translateToEng(){
     greetTheUser(language);
     getWeather(language);
     displayQuotes();
-    city.placeholder = "your city?"
+    city.placeholder = "your city?";
+    document.querySelector('.tags').placeholder = translation[language].tags
 
     for(let i = 0; i < settingButtons.length; i++){
         settingButtons[i].textContent = translation[language].buttons[i]
@@ -170,6 +172,7 @@ function translateToRus(){
     getWeather(language);
     displayQuotes();
     city.placeholder = "ваш город?"
+    document.querySelector('.tags').placeholder = translation[language].tags
 
     for(let i = 0; i < settingButtons.length; i++){
         settingButtons[i].textContent = translation[language].buttons[i]
@@ -187,6 +190,8 @@ function getLanguage(){
         settingButtons[i].textContent = translation[language].buttons[i]
     }
     apitext.textContent = translation[language].api;
+    document.querySelector('.tags').placeholder = translation[language].tags
+    
 }
 
 //время и календарь
@@ -229,18 +234,21 @@ function getName(){
     }
 }
 //работа с апи ансплэш
-async function getPhotofromUnsplash(timeOfDay){
-    const url = `https://api.unsplash.com/photos/random?orientation=landscape&query=nature&${timeOfDay}&client_id=mwZicQvxtMJy1pFt7ycw5CRtXnwgM0iMVnGrqDuDp18`;
+async function getPhotofromUnsplash(timeOfDay, tags="nature"){
+    const url = `https://api.unsplash.com/photos/random?orientation=landscape&query=${tags}${timeOfDay}&client_id=mwZicQvxtMJy1pFt7ycw5CRtXnwgM0iMVnGrqDuDp18`;
+    console.log(url);
     const result = await fetch(url);
     const image = await result.json(timeOfDay);
     return(image.urls.regular);
 }
 //работа с апи фликр
-async function getPhotofromFlickr(timeOfDay){
-    const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=967b0e577e1c06b79eeb679cb791b1ec&tags=nature&${timeOfDay}&extras=url_l&format=json&nojsoncallback=1`;
+async function getPhotofromFlickr(timeOfDay, tags="nature"){
+    const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=967b0e577e1c06b79eeb679cb791b1ec&tags=${tags}${timeOfDay}&extras=url_l&format=json&nojsoncallback=1`;
+    console.log(tags);
+    console.log(url);
     const result = await fetch(url);
     const image = await result.json();
-    return(image.photos.photo[getNumforBackgroundandQuote()].url_l);
+    return(image.photos.photo[Math.floor(Math.random() * (100 - 90 + 1))+90].url_l);
 }
 //слайдер фоновых изображений
 async function setBackgroundImage(){
@@ -253,13 +261,18 @@ async function setBackgroundImage(){
     }
     //создаем объект картинки и загружаем в бади при полной загрузке
     const apiImage = getApi();
+    let tags = document.querySelector('.tags').value.trim().replace(" ", "&");
+    if (tags){
+        tags += '&'
+    }
+    console.log(tags);
     let imageSource = ""
     if(apiImage === "Github"){
         imageSource = `https://raw.githubusercontent.com/slysnek/momentum-backgrounds/main/${timeOfDay}/${randomNumber}.webp`;
     } else if(apiImage === "Unsplash"){
-        imageSource = await getPhotofromUnsplash(timeOfDay);
+        imageSource = await getPhotofromUnsplash(timeOfDay, tags);
     } else if(apiImage === "Flickr"){
-        imageSource = await getPhotofromFlickr(timeOfDay);
+        imageSource = await getPhotofromFlickr(timeOfDay, tags);
     }
     console.log(imageSource);
     let image = new Image();
