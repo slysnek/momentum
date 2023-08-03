@@ -1,2 +1,1 @@
-# slysnek-JSFEPRESCHOOL2022Q2
-Private repository for @slysnek
+A small app with an audio player, random quotes, weather and pictures picked from photostock sites
